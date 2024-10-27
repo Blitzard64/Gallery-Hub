@@ -2,7 +2,6 @@
 session_start();
 include 'db.php';
 
-// Redirect if not logged in
 if (!isset($_SESSION['user_email'])) {
     header("Location: index.php");
     exit();
@@ -15,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $art_desc = $_POST['art_desc'];
     $art_genre = $_POST['art_genre'];
 
-    // Prepare SQL to insert art details into the database
     $sql = "UPDATE user SET art='$art', art_desc='$art_desc', art_genre='$art_genre' WHERE mail='$email'";
 
     if ($conn->query($sql) === TRUE) {
