@@ -1,23 +1,19 @@
 <?php
 session_start();
-include 'db.php'; // Ensure this file connects to your database
+include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Validate user credentials
     $sql = "SELECT * FROM user WHERE mail='$email' AND pass='$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // User exists, set session variable
         $_SESSION['user_email'] = $email;
 
-        // Update the curr column with the user's email (only the first entry)
         $updateSql = "UPDATE user SET curr='$email' WHERE id = (SELECT MIN(id) FROM user)";
         if ($conn->query($updateSql) === TRUE) {
-            // Successful update, redirect to creator page
             header("Location: creator.php");
             exit();
         } else {
@@ -34,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Login - Gallery Hub</title>
     <style>
-        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -53,14 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         body {
-            background-image: url('./download.jpg'); /* Replace with your image path */
+            background-image: url('./download.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             min-height: 100vh;
             line-height: 1.6;
         }
 
-        /* Navigation */
         .nav {
             position: fixed;
             top: 0;
@@ -95,7 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transform: scale(1.05);
         }
 
-        /* Form Styles */
         .form-container {
             max-width: 400px;
             margin: 2rem auto;
@@ -138,7 +131,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
         }
 
-        /* Button Styles */
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
@@ -176,20 +168,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 4px 12px rgba(219, 39, 119, 0.2);
         }
 
-        /* Main Content */
         .main {
             max-width: 1200px;
             margin: 0 auto;
             padding: 7rem 2rem 4rem;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 1rem;
